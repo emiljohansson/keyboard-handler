@@ -1,0 +1,32 @@
+{
+  "name": "keyboard-handler",
+  "version": "0.0.0",
+  "description": "Single handler for keyboard events.",
+  "main": "index.js",
+  "scripts": {
+    "test": "ava",
+    "coverage": "nyc --reporter=lcov --reporter=text-lcov ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/emiljohansson/keyboard-handler"
+  },
+  "keywords": [
+    "keyboard",
+    "event",
+    "listener",
+    "handler"
+  ],
+  "author": "Emil Johansson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/emiljohansson/keyboard-handler/issues"
+  },
+  "homepage": "https://github.com/emiljohansson/keyboard-handler",
+  "devDependencies": {
+    "ava": "^0.15.2",
+    "jsdom": "^9.3.0",
+    "nyc": "^6.6.1",
+    "sinon": "^1.15.4"
+  }
+}

@@ -11,6 +11,9 @@
     "type": "git",
     "url": "https://github.com/emiljohansson/keyboard-handler"
   },
+  "engines": {
+    "node": ">=4.0.0"
+  },
   "keywords": [
     "keyboard",
     "event",

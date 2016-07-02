@@ -77,6 +77,18 @@ test('keyReleased calls callback', (t) => {
 
 test('keyIsDown calls callback', (t) => {
     const callback = sinon.spy();
+    keyboard.keyIsDown(12, callback);
+    keyboard.keyIsDown(13, callback);
+    simulateKeyEvent(13, 'keydown');
+    const actual = callback.callCount;
+    const expected = 1;
+    t.is(actual, expected);
+
+    simulateKeyEvent(13, 'keyup');
+});
+
+test('keyIsDown calls callbacks', (t) => {
+    const callback = sinon.spy();
     keyboard.keyIsDown(13, callback);
     keyboard.keyIsDown(13, callback);
     simulateKeyEvent(13, 'keydown');

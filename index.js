@@ -44,6 +44,7 @@ exports.keyIsDown = function(code, cb) {
     if (keyDownEvents) {
         if (!keyDownEvents[code]) {
             keyDownEvents[code] = [cb];
+            return;
         }
         keyDownEvents[code].push(cb);
         return;

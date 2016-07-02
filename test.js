@@ -14,7 +14,7 @@ function simulateKeyEvent(code, type, keyKey) {
         cancelable: true,
         shiftKey: false
     };
-    keyKey = keyKey || 'key';
+    keyKey = keyKey || 'keyCode';
     KeyboardEventInit[keyKey] = code;
     var e = new window.KeyboardEvent(type, KeyboardEventInit);
     document.dispatchEvent(e);
@@ -49,21 +49,12 @@ test('keyPressed calls callback', (t) => {
 });
 
 test('keyPressed passes event object', (t) => {
-    const expected = '15';
-    keyboard.keyPressed(function(event) {
-        const actual = event.key;
-        t.is(actual, expected);
-    });
-    simulateKeyEvent(expected, 'keydown');
-});
-
-test('keyPressed passes event.keyCode object', (t) => {
     const expected = 15;
     keyboard.keyPressed(function(event) {
         const actual = event.keyCode;
         t.is(actual, expected);
     });
-    simulateKeyEvent(expected, 'keydown', 'keyCode');
+    simulateKeyEvent(expected, 'keydown');
 });
 
 test('keyPressed passes event.which object', (t) => {

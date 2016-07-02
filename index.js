@@ -64,7 +64,7 @@ exports.keyReleased = function(cb) {
 };
 
 function getKey(event) {
-    return event.key || event.keyCode || event.which;
+    return event.keyCode || event.which;
 }
 
 function onKeyIsDown(event) {

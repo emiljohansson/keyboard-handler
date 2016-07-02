@@ -1,6 +1,6 @@
 {
   "name": "keyboard-handler",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Single handler for keyboard events.",
   "main": "index.js",
   "scripts": {

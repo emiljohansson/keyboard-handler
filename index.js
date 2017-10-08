@@ -30,6 +30,7 @@ var keyDownEvents;
 var codeCache = {};
 
 exports.keysAreDown = function(codes, cb) {
+    initEvent(types.up);
     exports.keyPressed(function(event) {
         if (!every(codes, function(code) {
                 return codeCache[code] === true;

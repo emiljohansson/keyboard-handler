@@ -13,10 +13,10 @@ $ npm install --save keyboard-handler
 ## Usage
 
 ```js
-var keyboard = require('keyboard-handler');
-keyboard.keyPressed((e) {
-    console.log(e.which);
-});
+import * as keyboard from 'keyboard-handler'
+keyboard.keyPressed(e => {
+  console.log(e.which)
+})
 // => 27
 ```
 

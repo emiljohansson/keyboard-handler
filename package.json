@@ -9,6 +9,16 @@
     "coverage": "nyc --reporter=lcov --reporter=text-lcov ava",
     "coveralls": "npm run coverage | coveralls"
   },
+  "ava": {
+    "require": [
+      "babel-register"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "@ava/stage-4"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/emiljohansson/keyboard-handler"
@@ -29,7 +39,7 @@
   },
   "homepage": "https://github.com/emiljohansson/keyboard-handler",
   "devDependencies": {
-    "ava": "^0.15.2",
+    "ava": "^0.25.0",
     "coveralls": "^2.11.9",
     "jsdom": "^9.3.0",
     "nyc": "^6.6.1",

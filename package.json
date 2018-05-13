@@ -19,6 +19,9 @@
       "@ava/stage-4"
     ]
   },
+  "nyc": {
+    "reporter": "html"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/emiljohansson/keyboard-handler"
@@ -42,7 +45,7 @@
     "ava": "^0.25.0",
     "coveralls": "^2.11.9",
     "jsdom": "^9.3.0",
-    "nyc": "^6.6.1",
+    "nyc": "^11.7.3",
     "sinon": "^1.15.4"
   }
 }

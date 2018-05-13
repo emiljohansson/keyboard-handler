@@ -27,29 +27,25 @@ export const codes = {
   'delete': 46
 }
 
-function getKey (event) {
-  return event.keyCode || event.which
-}
+const getKey = event => event.keyCode || event.which
 
-function onKeyIsDown (event) {
-  var callbacks = keyDownEvents[getKey(event)]
-  if (!callbacks) {
+const onKeyIsDown = event => {
+  const callbacks = keyDownEvents[getKey(event)]
+  if (callbacks == null) {
     return
   }
   forEach(callbacks, bind(caller, event))
 }
 
-function bind (cb, thisArg) {
-  return function () {
-    var args = Array.prototype.slice.call(arguments)
-    args.push(thisArg)
-    cb.apply(thisArg, args)
-  }
+const bind = (cb, thisArg) => function () {
+  const args = [...arguments]
+  args.push(thisArg)
+  cb.apply(thisArg, args)
 }
 
-function every (array, predicate) {
-  var length = array.length
-  var index = -1
+const every = (array, predicate) => {
+  const length = array.length
+  let index = -1
   while (++index < length) {
     if (predicate(array[index]) === false) {
       return false
@@ -58,15 +54,15 @@ function every (array, predicate) {
   return true
 }
 
-function forEach (array, iteratee) {
-  var length = array.length
-  var index = -1
+const forEach = (array, iteratee) => {
+  const length = array.length
+  let index = -1
   while (++index < length) {
     iteratee(array[index])
   }
 }
 
-function initEvent (type) {
+const initEvent = type => {
   if (events[type]) {
     return
   }
@@ -74,26 +70,24 @@ function initEvent (type) {
   document.addEventListener(type, on(events[type]))
 }
 
-function on (array) {
-  return function (event) {
-    if (event.type === types.down) {
-      codeCache[getKey(event)] = true
-    }
-    if (event.type === types.up) {
-      delete codeCache[getKey(event)]
-    }
-    forEach(array, bind(caller, event))
+const on = array => event => {
+  if (event.type === types.down) {
+    codeCache[getKey(event)] = true
   }
+  if (event.type === types.up) {
+    delete codeCache[getKey(event)]
+  }
+  forEach(array, bind(caller, event))
 }
 
-function caller (cb, event) {
+const caller = (cb, event) => {
   cb(event)
 }
 
-export const keysAreDown = function (codes, cb) {
+export const keysAreDown = (codes, cb) => {
   initEvent(types.up)
-  keyPressed(function (event) {
-    if (!every(codes, function (code) {
+  keyPressed(event => {
+    if (!every(codes, code => {
       return codeCache[code] === true
     })) {
       return
@@ -102,7 +96,7 @@ export const keysAreDown = function (codes, cb) {
   })
 }
 
-export const keyIsDown = function (code, cb) {
+export const keyIsDown = (code, cb) => {
   if (keyDownEvents) {
     if (!keyDownEvents[code]) {
       keyDownEvents[code] = [cb]
@@ -116,12 +110,12 @@ export const keyIsDown = function (code, cb) {
   keyPressed(onKeyIsDown)
 }
 
-export const keyPressed = function (cb) {
+export const keyPressed = cb => {
   initEvent(types.down)
   events[types.down].push(cb)
 }
 
-export const keyReleased = function (cb) {
+export const keyReleased = cb => {
   initEvent(types.up)
   events[types.up].push(cb)
 }

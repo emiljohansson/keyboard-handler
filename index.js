@@ -1,4 +1,12 @@
-exports.codes = {
+const types = {
+  down: 'keydown',
+  up: 'keyup'
+}
+const events = {}
+const codeCache = {}
+let keyDownEvents
+
+export const codes = {
   'backspace': 8,
   'tab': 9,
   'enter': 13,
@@ -17,50 +25,6 @@ exports.codes = {
   'right': 39,
   'down': 40,
   'delete': 46
-}
-
-const types = {
-  down: 'keydown',
-  up: 'keyup'
-}
-const events = {}
-const codeCache = {}
-let keyDownEvents
-
-exports.keysAreDown = function (codes, cb) {
-  initEvent(types.up)
-  exports.keyPressed(function (event) {
-    if (!every(codes, function (code) {
-      return codeCache[code] === true
-    })) {
-      return
-    }
-    cb()
-  })
-}
-
-exports.keyIsDown = function (code, cb) {
-  if (keyDownEvents) {
-    if (!keyDownEvents[code]) {
-      keyDownEvents[code] = [cb]
-      return
-    }
-    keyDownEvents[code].push(cb)
-    return
-  }
-  keyDownEvents = {}
-  keyDownEvents[code] = [cb]
-  exports.keyPressed(onKeyIsDown)
-}
-
-exports.keyPressed = function (cb) {
-  initEvent(types.down)
-  events[types.down].push(cb)
-}
-
-exports.keyReleased = function (cb) {
-  initEvent(types.up)
-  events[types.up].push(cb)
 }
 
 function getKey (event) {
@@ -124,4 +88,40 @@ function on (array) {
 
 function caller (cb, event) {
   cb(event)
+}
+
+export const keysAreDown = function (codes, cb) {
+  initEvent(types.up)
+  keyPressed(function (event) {
+    if (!every(codes, function (code) {
+      return codeCache[code] === true
+    })) {
+      return
+    }
+    cb()
+  })
+}
+
+export const keyIsDown = function (code, cb) {
+  if (keyDownEvents) {
+    if (!keyDownEvents[code]) {
+      keyDownEvents[code] = [cb]
+      return
+    }
+    keyDownEvents[code].push(cb)
+    return
+  }
+  keyDownEvents = {}
+  keyDownEvents[code] = [cb]
+  keyPressed(onKeyIsDown)
+}
+
+export const keyPressed = function (cb) {
+  initEvent(types.down)
+  events[types.down].push(cb)
+}
+
+export const keyReleased = function (cb) {
+  initEvent(types.up)
+  events[types.up].push(cb)
 }

@@ -1,6 +1,6 @@
 import test from 'ava'
 import sinon from 'sinon'
-import keyboard from './'
+import * as keyboard from './'
 
 global.document = require('jsdom').jsdom('<body></body>')
 global.window = document.defaultView

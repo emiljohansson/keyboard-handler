@@ -7,30 +7,18 @@ global.window = document.defaultView
 global.navigator = window.navigator
 
 function simulateKeyEvent (code, type, keyKey) {
-  var KeyboardEventInit = {
+  const KeyboardEventInit = {
     bubbles: true,
     cancelable: true,
     shiftKey: false
   }
   keyKey = keyKey || 'keyCode'
   KeyboardEventInit[keyKey] = code
-  var e = new window.KeyboardEvent(type, KeyboardEventInit)
+  const e = new window.KeyboardEvent(type, KeyboardEventInit)
   document.dispatchEvent(e)
 }
 
-test('exist', (t) => {
-  t.is(typeof keyboard, 'object')
-})
-
-test('have functions', (t) => {
-  const expected = 'function'
-  t.is(typeof keyboard.keysAreDown, expected)
-  t.is(typeof keyboard.keyIsDown, expected)
-  t.is(typeof keyboard.keyPressed, expected)
-  t.is(typeof keyboard.keyReleased, expected)
-})
-
-test('keyPressed calls callback', (t) => {
+test('keyPressed calls callback', t => {
   const callback = sinon.spy()
   keyboard.keyPressed(callback)
   simulateKeyEvent(13, 'keydown')
@@ -40,7 +28,7 @@ test('keyPressed calls callback', (t) => {
   simulateKeyEvent(13, 'keyup')
 })
 
-test('keyPressed passes event object', (t) => {
+test('keyPressed passes event object', t => {
   const expected = 15
   keyboard.keyPressed(function (event) {
     const actual = event.keyCode
@@ -49,7 +37,7 @@ test('keyPressed passes event object', (t) => {
   simulateKeyEvent(expected, 'keydown')
 })
 
-test('keyPressed passes event.which object', (t) => {
+test('keyPressed passes event.which object', t => {
   const expected = 15
   keyboard.keyPressed(function (event) {
     const actual = event.which
@@ -58,7 +46,7 @@ test('keyPressed passes event.which object', (t) => {
   simulateKeyEvent(expected, 'keydown', 'which')
 })
 
-test('keyReleased calls callback', (t) => {
+test('keyReleased calls callback', t => {
   const callback = sinon.spy()
   keyboard.keyReleased(callback)
   simulateKeyEvent(13, 'keydown')
@@ -67,7 +55,7 @@ test('keyReleased calls callback', (t) => {
   t.true(actual)
 })
 
-test('keyIsDown calls callback', (t) => {
+test('keyIsDown calls callback', t => {
   const callback = sinon.spy()
   keyboard.keyIsDown(12, callback)
   keyboard.keyIsDown(13, callback)
@@ -79,7 +67,7 @@ test('keyIsDown calls callback', (t) => {
   simulateKeyEvent(13, 'keyup')
 })
 
-test('keyIsDown calls callbacks', (t) => {
+test('keyIsDown calls callbacks', t => {
   const callback = sinon.spy()
   keyboard.keyIsDown(13, callback)
   keyboard.keyIsDown(13, callback)
@@ -91,7 +79,7 @@ test('keyIsDown calls callbacks', (t) => {
   simulateKeyEvent(13, 'keyup')
 })
 
-test('keyIsDown NOT call callback', (t) => {
+test('keyIsDown NOT call callback', t => {
   const callback = sinon.spy()
   keyboard.keyIsDown(14, callback)
   simulateKeyEvent(13, 'keydown')
@@ -101,7 +89,7 @@ test('keyIsDown NOT call callback', (t) => {
   simulateKeyEvent(13, 'keyup')
 })
 
-test('keysAreDown calls callback', (t) => {
+test('keysAreDown calls callback', t => {
   const callback = sinon.spy()
   keyboard.keysAreDown([13, 14, 15], callback)
   simulateKeyEvent(13, 'keydown')
@@ -116,7 +104,7 @@ test('keysAreDown calls callback', (t) => {
   simulateKeyEvent(15, 'keyup')
 })
 
-test('keysAreDown NOT call callback', (t) => {
+test('keysAreDown NOT call callback', t => {
   const callback = sinon.spy()
   keyboard.keysAreDown([13, 14, 15], callback)
   simulateKeyEvent(13, 'keydown')

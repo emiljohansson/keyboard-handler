@@ -23,7 +23,7 @@ import * as keyboard from 'keyboard-handler'
 keyboard.keyPressed(e => {
 	console.log(e.key)
 })
-// => 27
+// => 'Enter'
 ```
 
 ## API

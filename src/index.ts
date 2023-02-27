@@ -2,7 +2,7 @@ type EventTypes = 'keydown' | 'keyup'
 type EventCallback = (event: KeyboardEvent) => void
 
 const events: { [key in EventTypes]?: EventCallback[] } = {}
-const codeCache: { [key: string]: boolean } = {}
+const keyCache: { [key: string]: boolean } = {}
 let keyDownEvents: { [key: string]: EventCallback[] }
 
 const onKeyIsDown = (event: KeyboardEvent) => {
@@ -10,7 +10,7 @@ const onKeyIsDown = (event: KeyboardEvent) => {
 	if (callbacks == null) {
 		return
 	}
-	callbacks.forEach(callback => callback(event))
+	callbacks.forEach((callback) => callback(event))
 }
 
 const initEvent = (type: EventTypes) => {
@@ -24,33 +24,33 @@ const initEvent = (type: EventTypes) => {
 const on = (eventCallbacks: EventCallback[]) => (event: KeyboardEvent) => {
 	const type = event.type as EventTypes
 	if (type === 'keydown') {
-		codeCache[event.key] = true
+		keyCache[event.key] = true
 	}
 	if (type === 'keyup') {
-		delete codeCache[event.key]
+		delete keyCache[event.key]
 	}
-	eventCallbacks.forEach(callback => callback(event))
+	eventCallbacks.forEach((callback) => callback(event))
 }
 
-export const keysAreDown = (codes: string[], callback: () => void) => {
+export const keysAreDown = (keys: string[], callback: () => void) => {
 	initEvent('keyup')
 	keyPressed(() => {
-		if (!codes.every(code => codeCache[code] === true)) return
+		if (!keys.every((key) => keyCache[key] === true)) return
 		callback()
 	})
 }
 
-export const keyIsDown = (code: number | string, callback: EventCallback) => {
+export const keyIsDown = (key: string, callback: EventCallback) => {
 	if (keyDownEvents) {
-		if (!keyDownEvents[code]) {
-			keyDownEvents[code] = [callback]
+		if (!keyDownEvents[key]) {
+			keyDownEvents[key] = [callback]
 			return
 		}
-		keyDownEvents[code].push(callback)
+		keyDownEvents[key].push(callback)
 		return
 	}
 	keyDownEvents = {}
-	keyDownEvents[code] = [callback]
+	keyDownEvents[key] = [callback]
 	keyPressed(onKeyIsDown)
 }
 

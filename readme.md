@@ -10,6 +10,8 @@ Appends a single listener for keyboard events, using the `document.addEventListe
 $ npm install --save keyboard-handler
 ```
 
+or
+
 ```
 $ pnpm add keyboard-handler
 ```
@@ -26,11 +28,11 @@ keyboard.keyPressed(e => {
 
 ## API
 
-### keysAreDown(codes, cb)
+### keysAreDown(keys, cb)
 
-Calls `cb` if all `codes` are held down.
+Calls `cb` if all `keys` are held down.
 
-#### codes
+#### keys
 
 Type: `array`
 
@@ -38,13 +40,13 @@ Type: `array`
 
 Type: `function`
 
-### keyIsDown(code, cb)
+### keyIsDown(key, cb)
 
-Calls `cb` when a certain key `code` is pressed.
+Calls `cb` when a certain key `key` is pressed.
 
-#### code
+#### key
 
-Type: `number`
+Type: `string`
 
 #### cb
 
@@ -68,4 +70,4 @@ Type: `function`
 
 ## License
 
-MIT © [Emil Johansson](http://emiljohansson.se)
+MIT © [Emil Johansson](http://emiljohansson.dev)

@@ -10,12 +10,16 @@ Appends a single listener for keyboard events, using the `document.addEventListe
 $ npm install --save keyboard-handler
 ```
 
+```
+$ pnpm add keyboard-handler
+```
+
 ## Usage
 
 ```js
 import * as keyboard from 'keyboard-handler'
 keyboard.keyPressed(e => {
-  console.log(e.which)
+	console.log(e.key)
 })
 // => 27
 ```

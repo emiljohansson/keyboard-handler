@@ -1,41 +1,18 @@
 {
   "name": "keyboard-handler",
   "version": "2.0.0",
+  "main": "dist/index.js",
+  "types": "./dist/index.d.ts",
   "description": "Single handler for keyboard events.",
-  "main": "index.js",
-  "scripts": {
-    "bundle": "webpack sandbox/app.js -o sandbox/bundle.js --watch",
-    "test": "nyc ava",
-    "coverage": "nyc --reporter=lcov --reporter=text-lcov ava",
-    "coveralls": "npm run coverage | coveralls"
+  "author": "Emil Johansson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/emiljohansson/keyboard-handler/issues"
   },
-  "ava": {
-    "files": [
-      "test.js"
-    ],
-    "source": [
-      "test.js",
-      "index.js",
-      "!sandbox/**/*"
-    ],
-    "require": [
-      "babel-register"
-    ]
-  },
-  "babel": {
-    "presets": [
-      "@ava/stage-4"
-    ]
-  },
-  "nyc": {
-    "reporter": "html"
-  },
+  "homepage": "https://github.com/emiljohansson/keyboard-handler",
   "repository": {
     "type": "git",
     "url": "https://github.com/emiljohansson/keyboard-handler"
-  },
-  "engines": {
-    "node": ">=6.0.0"
   },
   "keywords": [
     "keyboard",
@@ -43,19 +20,16 @@
     "listener",
     "handler"
   ],
-  "author": "Emil Johansson",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/emiljohansson/keyboard-handler/issues"
+  "scripts": {
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "dev": "vite ./sandbox",
+    "build": "tsc",
+    "preview": "vite preview"
   },
-  "homepage": "https://github.com/emiljohansson/keyboard-handler",
   "devDependencies": {
-    "ava": "^0.25.0",
-    "coveralls": "^2.11.9",
-    "jsdom": "^9.3.0",
-    "nyc": "^11.7.3",
-    "sinon": "^1.15.4",
-    "webpack": "^4.8.3",
-    "webpack-cli": "^2.1.3"
+    "cypress": "12.7.0",
+    "typescript": "4.9.5",
+    "vite": "4.1.4"
   }
 }

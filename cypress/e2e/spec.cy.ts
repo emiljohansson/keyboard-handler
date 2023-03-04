@@ -1,19 +1,17 @@
 describe('template spec', () => {
 	beforeEach(() => {
 		cy.visit('http://127.0.0.1:5173')
+		cy.get('#add-events').click()
+	})
+
+	afterEach(() => {
+		cy.get('#remove-events').click()
+		cy.get('#clear-texts').click()
 	})
 
 	it('keyIsDown should print key value for arrow up', () => {
 		cy.get('#enter').type('{upArrow}')
 		cy.get('#key-down').should('have.value', 'keyIsDown: ArrowUp')
-
-		// cleanup
-		cy.get('#remove-events').click()
-		cy.get('#clear-texts').click()
-		cy.wait(500)
-
-		cy.get('#enter').type('{upArrow}')
-		cy.get('#key-down').should('have.value', '')
 	})
 
 	it('keyPressed should print every key pressed', () => {
@@ -43,5 +41,24 @@ describe('template spec', () => {
 	it('keysAreDown should print a result when all matching keys are pressed', () => {
 		cy.get('#enter').type('{shift+E}')
 		cy.get('#keys-down').should('have.value', 'keysAreDown: Shift, E')
+	})
+
+	it('should add and remove listeners', () => {
+		cy.get('#enter').type('{upArrow}')
+		cy.get('#key-down').should('have.value', 'keyIsDown: ArrowUp')
+
+		// cleanup
+		cy.get('#remove-events').click()
+		cy.get('#clear-texts').click()
+		cy.wait(500)
+
+		cy.get('#enter').type('{upArrow}')
+		cy.get('#key-down').should('have.value', '')
+
+		// cy.get('#current-state').click()
+		cy.get('#add-events').click()
+		cy.get('#enter').type('{upArrow}')
+		cy.get('#key-down').should('have.value', 'keyIsDown: ArrowUp')
+		// cy.get('#current-state').click()
 	})
 })

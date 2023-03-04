@@ -4,13 +4,13 @@ type EventCallback = (event: KeyboardEvent) => void
 const events: { [key in EventTypes]?: Set<EventCallback> } = {}
 const keyCache: { [key: string]: boolean } = {}
 const addedEventListeners: { [key in EventTypes]?: (event: KeyboardEvent) => void } = {}
-let keyDownEvents: { [key: string]: EventCallback[] }
+const keyDownEvents: { [key: string]: Set<EventCallback> } = {}
 
 const onKeyIsDown = (event: KeyboardEvent) => {
-	const callbacks = keyDownEvents[event.key]
-	if (callbacks == null) {
+	if (!keyDownEvents[event.key]?.size) {
 		return
 	}
+	const callbacks = keyDownEvents[event.key]
 	callbacks.forEach((callback) => callback(event))
 }
 
@@ -38,6 +38,8 @@ const removeCallback = (type: EventTypes, callback: EventCallback) => () => {
 	events[type]?.delete(callback)
 	if (!events[type]?.size) {
 		document.removeEventListener(type, addedEventListeners[type]!)
+		delete addedEventListeners[type]
+		delete events[type]
 	}
 }
 
@@ -50,17 +52,20 @@ export const keysAreDown = (keys: string[], callback: () => void) => {
 }
 
 export const keyIsDown = (key: string, callback: EventCallback) => {
-	if (keyDownEvents) {
-		if (!keyDownEvents[key]) {
-			keyDownEvents[key] = [callback]
-			return () => {}
-		}
-		keyDownEvents[key].push(callback)
-		return () => {}
+	if (!keyDownEvents[key]) {
+		keyDownEvents[key] = new Set()
 	}
-	keyDownEvents = {}
-	keyDownEvents[key] = [callback]
-	return keyPressed(onKeyIsDown)
+	keyDownEvents[key].add(callback)
+	const removeKeyPressed = keyPressed(onKeyIsDown)
+
+	return () => {
+		if (!keyDownEvents[key]) return
+		keyDownEvents[key].delete(callback)
+		removeKeyPressed()
+		if (keyDownEvents[key].size < 1) {
+			delete keyDownEvents[key]
+		}
+	}
 }
 
 export const keyPressed = (callback: EventCallback) => {
@@ -74,3 +79,14 @@ export const keyReleased = (callback: EventCallback) => {
 	events['keyup']!.add(callback)
 	return removeCallback('keyup', callback)
 }
+
+// for testing
+// export const currentState = () => {
+// 	console.log('current state is:')
+// 	console.log({
+// 		events,
+// 		keyCache,
+// 		addedEventListeners,
+// 		keyDownEvents,
+// 	})
+// }

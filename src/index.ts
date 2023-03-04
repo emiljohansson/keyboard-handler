@@ -2,7 +2,7 @@ type EventTypes = 'keydown' | 'keyup'
 type EventCallback = (event: KeyboardEvent) => void
 
 const events: { [key in EventTypes]?: Set<EventCallback> } = {}
-const keyCache: { [key: string]: boolean } = {}
+let keyCache: { [key: string]: boolean } = {}
 const addedEventListeners: { [key in EventTypes]?: (event: KeyboardEvent) => void } = {}
 const keyDownEvents: { [key: string]: Set<EventCallback> } = {}
 
@@ -25,11 +25,17 @@ const initEvent = (type: EventTypes) => {
 
 const on = (eventCallbacks: Set<EventCallback>) => (event: KeyboardEvent) => {
 	const type = event.type as EventTypes
+	const key = event.key.toLowerCase()
+
 	if (type === 'keydown') {
-		keyCache[event.key] = true
+		keyCache[event.key.toLowerCase()] = true
 	}
 	if (type === 'keyup') {
-		delete keyCache[event.key]
+		if (key === 'meta') {
+			keyCache = {}
+		} else {
+			delete keyCache[event.key.toLowerCase()]
+		}
 	}
 	eventCallbacks.forEach((callback) => callback(event))
 }
@@ -46,7 +52,7 @@ const removeCallback = (type: EventTypes, callback: EventCallback) => () => {
 export const keysAreDown = (keys: string[], callback: () => void) => {
 	initEvent('keyup')
 	return keyPressed(() => {
-		if (!keys.every((key) => keyCache[key] === true)) return
+		if (!keys.every((key) => keyCache[key.toLowerCase()] === true)) return
 		callback()
 	})
 }

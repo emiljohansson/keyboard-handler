@@ -24,8 +24,8 @@ const addAllListeners = () => {
 		keyDown!.value = `keyIsDown: ${e.key}`
 	})
 
-	onRemoveKeysAreDown = keysAreDown(['Shift', 'E'], () => {
-		keysDown!.value = `keysAreDown: Shift, E`
+	onRemoveKeysAreDown = keysAreDown(['Meta', 'k'], () => {
+		keysDown!.value = `keysAreDown: Meta, k`
 	})
 }
 

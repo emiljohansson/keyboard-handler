@@ -39,8 +39,11 @@ describe('template spec', () => {
 	})
 
 	it('keysAreDown should print a result when all matching keys are pressed', () => {
-		cy.get('#enter').type('{shift+E}')
-		cy.get('#keys-down').should('have.value', 'keysAreDown: Shift, E')
+		cy.get('#enter').type('{meta+k}')
+		cy.get('#keys-down').should('have.value', 'keysAreDown: Meta, k')
+		cy.get('#clear-texts').click()
+		cy.get('#enter').type('{meta}')
+		cy.get('#keys-down').should('have.value', '')
 	})
 
 	it('should add and remove listeners', () => {

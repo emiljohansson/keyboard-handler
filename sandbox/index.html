@@ -5,6 +5,19 @@
     <title>keyboard handler</title>
   </head>
   <body>
-    <script src="bundle.js"></script>
+    <div id="app">
+      <input id="enter">
+      <div>
+        <button id="clear-texts">Clear texts</button>
+        <button id="add-events">Add all events</button>
+        <button id="remove-events">Remove all events</button>
+        <button id="current-state">Current state</button>
+      </div>
+      <input id="pressed" readonly />
+      <input id="released" readonly />
+      <input id="key-down" readonly />
+      <input id="keys-down" readonly />
+    </div>
+    <script type="module" src="./app.ts"></script>
   </body>
 </html>

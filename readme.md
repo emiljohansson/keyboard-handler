@@ -1,4 +1,4 @@
-# keyboard-handler [![Build Status](https://travis-ci.org/emiljohansson/keyboard-handler.svg?branch=master)](https://travis-ci.org/emiljohansson/keyboard-handler) [![npm version](https://img.shields.io/npm/v/keyboard-handler.svg)](https://www.npmjs.com/package/keyboard-handler) [![Coverage Status](https://img.shields.io/coveralls/emiljohansson/keyboard-handler/master.svg)](https://coveralls.io/r/emiljohansson/keyboard-handler?branch=master)
+# keyboard-handler [![npm version](https://img.shields.io/npm/v/keyboard-handler.svg)](https://www.npmjs.com/package/keyboard-handler)
 
 > Single handler for all browser keyboard events.
 
@@ -10,23 +10,29 @@ Appends a single listener for keyboard events, using the `document.addEventListe
 $ npm install --save keyboard-handler
 ```
 
+or
+
+```
+$ pnpm add keyboard-handler
+```
+
 ## Usage
 
 ```js
 import * as keyboard from 'keyboard-handler'
 keyboard.keyPressed(e => {
-  console.log(e.which)
+	console.log(e.key)
 })
-// => 27
+// => 'Enter'
 ```
 
 ## API
 
-### keysAreDown(codes, cb)
+### keysAreDown(keys, cb)
 
-Calls `cb` if all `codes` are held down.
+Calls `cb` if all `keys` are held down.
 
-#### codes
+#### keys
 
 Type: `array`
 
@@ -34,13 +40,13 @@ Type: `array`
 
 Type: `function`
 
-### keyIsDown(code, cb)
+### keyIsDown(key, cb)
 
-Calls `cb` when a certain key `code` is pressed.
+Calls `cb` when a certain key `key` is pressed.
 
-#### code
+#### key
 
-Type: `number`
+Type: `string`
 
 #### cb
 
@@ -64,4 +70,4 @@ Type: `function`
 
 ## License
 
-MIT © [Emil Johansson](http://emiljohansson.se)
+MIT © [Emil Johansson](http://emiljohansson.dev)

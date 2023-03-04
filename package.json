@@ -29,7 +29,7 @@
     "dev": "vite ./sandbox",
     "build": "tsc",
     "preview": "vite preview",
-    "prepublish": "pnpm build"
+    "prepublishOnly": "pnpm build"
   },
   "devDependencies": {
     "cypress": "12.7.0",

@@ -6,11 +6,15 @@
   </head>
   <body>
     <div id="app">
-      <input type="text">
-      <div id="pressed"></div>
-      <div id="released"></div>
-      <div id="key-down"></div>
-      <div id="keys-down"></div>
+      <input id="enter">
+      <div>
+        <button id="clear-texts">Clear texts</button>
+        <button id="remove-events">Remove all events</button>
+      </div>
+      <input id="pressed" readonly />
+      <input id="released" readonly />
+      <input id="key-down" readonly />
+      <input id="keys-down" readonly />
     </div>
     <script type="module" src="./app.ts"></script>
   </body>

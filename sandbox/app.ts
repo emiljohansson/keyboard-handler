@@ -1,22 +1,39 @@
 import { keyPressed, keyReleased, keyIsDown, keysAreDown } from '../src/index'
 
-const pressed = document.getElementById('pressed')
-const released = document.getElementById('released')
-const keyDown = document.getElementById('key-down')
-const keysDown = document.getElementById('keys-down')
+const pressed = document.getElementById('pressed') as HTMLInputElement
+const released = document.getElementById('released') as HTMLInputElement
+const keyDown = document.getElementById('key-down') as HTMLInputElement
+const keysDown = document.getElementById('keys-down') as HTMLInputElement
+const clearTexts = document.getElementById('clear-texts')
 
-keyPressed(e => {
-	pressed!.innerHTML = `keyPressed: ${e.key}`
+const onRemoveKeyPressed = keyPressed(e => {
+	pressed!.value = `keyPressed: ${e.key}`
 })
 
-keyReleased(e => {
-	released!.innerHTML = `keyReleased: ${e.key}`
+const onRemoveKeyReleased = keyReleased(e => {
+	released!.value = `keyReleased: ${e.key}`
 })
 
-keyIsDown('ArrowUp', e => {
-	keyDown!.innerHTML = `keyIsDown: ${e.key}`
+const onRemoveKeyIsDown = keyIsDown('ArrowUp', e => {
+	keyDown!.value = `keyIsDown: ${e.key}`
 })
 
-keysAreDown(['Shift', 'E'], () => {
-	keysDown!.innerHTML = `keysAreDown: Shift, E`
+const onRemoveKeysAreDown = keysAreDown(['Shift', 'E'], () => {
+	keysDown!.value = `keysAreDown: Shift, E`
+})
+
+clearTexts?.addEventListener('click', () => {
+	console.log('clear')
+
+	pressed!.value = ''
+	released!.value = ''
+	keyDown!.value = ''
+	keysDown!.value = ''
+})
+
+document.getElementById('remove-events')?.addEventListener('click', () => {
+	onRemoveKeyPressed()
+	onRemoveKeyReleased()
+	onRemoveKeyIsDown()
+	onRemoveKeysAreDown()
 })

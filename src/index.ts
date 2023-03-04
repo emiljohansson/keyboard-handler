@@ -1,8 +1,9 @@
 type EventTypes = 'keydown' | 'keyup'
 type EventCallback = (event: KeyboardEvent) => void
 
-const events: { [key in EventTypes]?: EventCallback[] } = {}
+const events: { [key in EventTypes]?: Set<EventCallback> } = {}
 const keyCache: { [key: string]: boolean } = {}
+const addedEventListeners: { [key in EventTypes]?: (event: KeyboardEvent) => void } = {}
 let keyDownEvents: { [key: string]: EventCallback[] }
 
 const onKeyIsDown = (event: KeyboardEvent) => {
@@ -17,11 +18,12 @@ const initEvent = (type: EventTypes) => {
 	if (events[type]) {
 		return
 	}
-	events[type] = []
-	document.addEventListener(type, on(events[type]!))
+	events[type] = new Set()
+	addedEventListeners[type] = on(events[type]!)
+	document.addEventListener(type, addedEventListeners[type]!)
 }
 
-const on = (eventCallbacks: EventCallback[]) => (event: KeyboardEvent) => {
+const on = (eventCallbacks: Set<EventCallback>) => (event: KeyboardEvent) => {
 	const type = event.type as EventTypes
 	if (type === 'keydown') {
 		keyCache[event.key] = true
@@ -32,9 +34,16 @@ const on = (eventCallbacks: EventCallback[]) => (event: KeyboardEvent) => {
 	eventCallbacks.forEach((callback) => callback(event))
 }
 
+const removeCallback = (type: EventTypes, callback: EventCallback) => () => {
+	events[type]?.delete(callback)
+	if (!events[type]?.size) {
+		document.removeEventListener(type, addedEventListeners[type]!)
+	}
+}
+
 export const keysAreDown = (keys: string[], callback: () => void) => {
 	initEvent('keyup')
-	keyPressed(() => {
+	return keyPressed(() => {
 		if (!keys.every((key) => keyCache[key] === true)) return
 		callback()
 	})
@@ -44,22 +53,24 @@ export const keyIsDown = (key: string, callback: EventCallback) => {
 	if (keyDownEvents) {
 		if (!keyDownEvents[key]) {
 			keyDownEvents[key] = [callback]
-			return
+			return () => {}
 		}
 		keyDownEvents[key].push(callback)
-		return
+		return () => {}
 	}
 	keyDownEvents = {}
 	keyDownEvents[key] = [callback]
-	keyPressed(onKeyIsDown)
+	return keyPressed(onKeyIsDown)
 }
 
 export const keyPressed = (callback: EventCallback) => {
 	initEvent('keydown')
-	events['keydown']!.push(callback)
+	events['keydown']!.add(callback)
+	return removeCallback('keydown', callback)
 }
 
 export const keyReleased = (callback: EventCallback) => {
 	initEvent('keyup')
-	events['keyup']!.push(callback)
+	events['keyup']!.add(callback)
+	return removeCallback('keyup', callback)
 }
